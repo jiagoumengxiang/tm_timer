@@ -10,6 +10,7 @@
          font-size:24px;
          color:red;
      }
+     .light{}
 
      .green-light{
          margin:10px auto;
@@ -72,10 +73,10 @@
             <button onclick="$f('__.timeEnd',this);" >结束</button>
             <button onclick="$f('__.clearLog',this);" >清除日志</button>
         </div>
-        <div class="green-light"></div>
-        <div class="yellow-light"></div>
-        <div class="red-light"></div>
-        <div class="ring-light" ></div>
+        <div class="light green-light"></div>
+        <div class="light yellow-light"></div>
+        <div class="light red-light"></div>
+        <div class="light ring-light" ></div>
         <div class="log">
 
         </div>
@@ -150,6 +151,8 @@
 
          $f("set","timer",0);
          $("h3 span").html("");
+
+         $(".light").css("background-color","");
      }
 
  });
@@ -197,11 +200,11 @@
          }
      }else{
          //绿灯规则
-         if( now_mm <2){
+         if( now_mm <1){
              $(".green-light").css("background-color","green");
          }
          //黄灯规则
-         if(now_mm<1){
+         if(now_mm<1 && now_ss < 31){
              $(".yellow-light").css("background-color","yellow");
          }
          //红灯规则
@@ -232,6 +235,6 @@
 
  $f("df","__.addLog",function(_text){
      $(".log").html(_text+"<br/>"+$(".log").html());
-         localStorage.log = $(".log").html();
+     localStorage.log = $(".log").html();
  });
 </script>

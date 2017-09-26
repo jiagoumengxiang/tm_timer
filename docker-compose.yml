@@ -1,0 +1,6 @@
+timer:
+  build: .
+  ports:
+    - "8000:80"
+  environment:
+    - VIRTUAL_HOST=timer.tinyfn.top 
