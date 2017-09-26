@@ -1,0 +1,8 @@
+# 首页广告栏
+somename:
+  url: archive/home
+  attr:
+    a: 1
+  rtn:
+    a: 1
+    b: 2

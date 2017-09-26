@@ -1,4 +1,3 @@
-FROM python:2.7
-WORKDIR /code
-ADD . /code
+FROM daocloud.io/nginx
+COPY dist/ /usr/share/nginx/html
 EXPOSE 80

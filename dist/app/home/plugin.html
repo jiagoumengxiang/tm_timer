@@ -1,0 +1,240 @@
+<template>
+    <style>
+     .timer{
+         display:block;
+         width:90%;
+         margin:0 auto;
+         color:white;
+     }
+     .timer span{
+         font-size:24px;
+         color:red;
+     }
+     .light{}
+
+     .green-light{
+         margin:10px auto;
+         display:block;
+         width:100px;
+         height:100px;
+         margin-top:10px;
+         border:1px solid green;
+         border-radius:50px;
+     }
+
+     .yellow-light{
+         margin:10px auto;
+         display:block;
+         width:100px;
+         height:100px;
+         margin-top:10px;
+         border:1px solid yellow;
+         border-radius:50px;
+     }
+
+     .red-light{
+         margin:10px auto;
+         display:block;
+         width:100px;
+         height:100px;
+         border:1px solid red;
+         border-radius:50px;
+     }
+     .ring-light{
+         margin:10px auto;
+         display:block;
+         width:100px;
+         height:50px;
+         border:1px solid white;
+         border-radius:25px;
+     }
+    </style>
+    <div class="timer" >
+        <h3>剩余时间
+            <span >
+                <oo>=timer</oo>
+            </span>
+        </h3>
+        <div class="timer-check">
+            <input type="checkbox" value="3" >3分钟
+            <input type="checkbox" value="6" >6分钟
+            <input type="checkbox" value="7" >7分钟
+        </div>
+
+        <div class="timer-check">
+            <input type="checkbox" value="0.5" >30秒
+            <input type="checkbox" value="1" >1分钟
+            <input type="checkbox" value="2" >2分钟
+            <input type="checkbox" value="4" >4分钟
+            <input type="checkbox" value="8" >8分钟
+        </div>
+        <div class="button-group" >
+            <button onclick="$f('__.timeStart',this);">开始</button>
+            <button onclick="$f('__.timeEnd',this);" >结束</button>
+            <button onclick="$f('__.clearLog',this);" >清除日志</button>
+        </div>
+        <div class="light green-light"></div>
+        <div class="light yellow-light"></div>
+        <div class="light red-light"></div>
+        <div class="light ring-light" ></div>
+        <div class="log">
+
+        </div>
+    </div>
+</template>
+<script>
+
+ $f("df", __, function(_page) {
+     $("#content").html($f("TPPL",_page,{timer:""}));
+     $(".log").html(localStorage.log);
+     $f("set","timer",0);
+ });
+
+ $f("df","__.clearLog",function(e){
+     localStorage.log="";
+     $(".log").html("");
+ });
+
+ $f("df","__.timeStart",function(e){
+     //判断是否结束
+     if(!$f("get","timer")){
+         //获取设定时间
+         var time = $f("__.getSelectTime");
+         if(time == 0 ) $f("__.addLog","请选择时间");
+         //开始计时
+         $f("set","setting-time",time);
+         $f("set","now_mm",Math.round(time-0.5));
+         $f("set","now_ss",(time-Math.round(time-0.5))*60);
+
+         var timerId = setInterval(function(){
+             $f("__.peerSecond");
+         },1000);
+         $f("set","timer",timerId);
+     }else{
+         //提醒正在计时中
+         $f("__.addLog","正在计时中,请先停止再开始.");
+     }
+ });
+
+ $f("df","__.timeEnd",function(e){
+
+     //判断是否计时
+     var timer = $f("get","timer");
+
+     if(timer){
+         //结束计时
+         clearInterval(timer);
+         var time =$f("get","setting-time");
+
+         //设定分钟,秒钟
+         var setting_mm = Math.round(time-0.5);
+         var setting_ss = (time-setting_mm)*60;
+
+         //当前剩余分钟,秒钟
+         var now_mm = $f("get","now_mm");
+         var now_ss = $f("get","now_ss");
+
+         var spend_mm = setting_mm-now_mm;
+         var spend_ss = setting_ss - now_ss;
+
+         if(spend_ss <0){
+             spend_mm --;
+             spend_ss +=60;
+         }
+
+         if(spend_ss >59){
+             spend_mm = spend_mm +Math.round(spend_ss/60-0.5);
+             spend_ss = spend_ss%60;
+         }
+
+         $f("__.addLog","计时->"+setting_mm+":"+setting_ss+"    用时->"+spend_mm+":"+spend_ss);
+
+         $f("set","timer",0);
+         $("h3 span").html("");
+
+         $(".light").css("background-color","");
+     }
+
+ });
+
+ $f("df","__.getSelectTime",function(){
+     var checkboxs = $("input");
+     var num = 0;
+     for(var i in checkboxs){
+         if(checkboxs[i].checked){
+             num+=(Number.parseFloat(checkboxs[i].value));
+         }
+     }
+     return num;
+ });
+
+
+ $f("df","__.peerSecond",function(){
+     var time =$f("get","setting-time");
+
+     //设定分钟,秒钟
+     var setting_mm = Math.round(time-0.5);
+     var setting_ss = (time-setting_mm)*60;
+
+     //当前剩余分钟,秒钟
+     var now_mm = $f("get","now_mm");
+     var now_ss = $f("get","now_ss");
+
+     $("h3 span").html(now_mm+":"+now_ss);
+
+     if(setting_mm>3){
+         //绿灯规则
+         if( now_mm <2){
+             $(".green-light").css("background-color","green");
+         }
+         //黄灯规则
+         if(now_mm<1){
+             $(".yellow-light").css("background-color","yellow");
+         }
+         //红灯规则
+         if(now_mm==0 && now_ss ==0){
+             $(".red-light").css("background-color","red");
+         }
+         if(now_ss == -30){
+             $(".ring-light").css("background-color","white");
+         }
+     }else{
+         //绿灯规则
+         if( now_mm <1){
+             $(".green-light").css("background-color","green");
+         }
+         //黄灯规则
+         if(now_mm<1 && now_ss < 31){
+             $(".yellow-light").css("background-color","yellow");
+         }
+         //红灯规则
+         if(now_mm==0 && now_ss ==0){
+             $(".red-light").css("background-color","red");
+         }
+         if(now_ss == -30){
+             $(".ring-light").css("background-color","white");
+         }
+
+     }
+
+     //计算剩余时间
+     if(now_ss<1){
+         if(now_mm>0){
+             $f("set","now_mm",now_mm-1);
+             $f("set","now_ss",59);
+         }else{
+             $f("set","now_ss",now_ss-1);
+         }
+     }else{
+         $f("set","now_ss",now_ss-1);
+     }
+
+
+ });
+
+
+ $f("df","__.addLog",function(_text){
+     $(".log").html(_text+"<br/>"+$(".log").html());
+     localStorage.log = $(".log").html();
+ });
+</script>

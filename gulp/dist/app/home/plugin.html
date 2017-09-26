@@ -1,0 +1,77 @@
+<template>
+  <style>
+      .demo-card-header-pic .card-header {
+          height: 40vw;
+          background-size: cover;
+          background-position: center;
+      }
+
+       .list-block .item-subtitle {
+          color: grey;
+          font-size: 12px;
+          position: relative;
+          overflow: hidden;
+          white-space: nowrap;
+          max-width: 100%;
+          text-overflow: ellipsis;
+      }
+  </style>
+  <!--
+    <div data-page="floating-button" class="page page-on-center">
+            <div class="speed-dial speed-dial-closed"><a href="#" class="floating-button"><i class="icon f7-icons">add</i><i
+            class="icon f7-icons">close</i></a>
+        <div class="speed-dial-buttons">
+            <a href="#"><i style="font-size: 20px" class="icon f7-icons">volume</i></a>
+            <a href="#"><i style="font-size: 20px" class="icon f7-icons">dcompose</i></a>
+            <a href="#"><i style="font-size: 20px" class="icon f7-icons">camera</i></a>
+        </div>
+    </div>-->
+  <div class="page-content">
+    <div class="card demo-card-header-pic" style="background-image:url(img/pd.jpg);margin:10px">
+        <div valign="bottom" class="card-header color-white no-border">物竞天择,适者生存</div>
+        <div class="card-content">
+            <div class="card-content-inner color-white">
+                <p>弱者坐以待毙,强者创造时机</p>
+            </div>
+        </div>
+    </div>
+
+    <!--最近联系人-->
+   <div id="recent-contact"> </div>
+    <!--今日任务-->
+    <div id="task"> </div>
+
+    <!--每周食谱-->
+    <!--<div id="recipe"> </div>-->
+
+    <!--社会热点-->
+    <div id="point"></div>
+
+    <!--兴趣小组-->
+    <div id="interest"></div>
+
+    <!--每天一篇好文章-->
+    <div id="article"></div>
+
+    <!--社会动态-->
+    <div id="dynamic"></div>
+
+    </div>
+</div>
+
+</template>
+<script>
+    $f("df", __, function(_page) {
+        $f("plugin.test","__");
+        $("#home-content").html(_page);
+        AppFramework.hideIndicator();
+        homeView.router.load({
+            pageName: "home"
+        });
+        $f("ajax.get","archive/home.yml", {}, "__.testyml")();
+    });
+
+    $f("df", "__.testyml",function(_data){
+console.log(_data);
+    });
+</script>

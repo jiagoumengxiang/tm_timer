@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <!-- Your app title -->
+    <title>hrframe-plugin-tools</title>
+ <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="css/framework7-icons.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+</head>
+
+<body>
+<!-- Tabs, 现在容器是"views" -->
+<div class="views tabs toolbar-fixed">
+    <!-- Tab 1 同时也是 View 1, 默认激活 -->
+    <div id="tab1" class="view view-home tab active">
+        <div class="pages">
+            <div data-page="home-info" class="page">
+                <div id="home-info-content" class="page-content">
+                </div>
+            </div>
+            <div data-page="home" class="page">
+                <form class="searchbar">
+                    <div class="searchbar-input">
+                        <input type="search" placeholder="Search">
+                        <a href="#" class="searchbar-clear"></a>
+                    </div>
+                    <a href="#" class="searchbar-cancel">Cancel</a>
+                </form>
+                <!-- Search Bar overlay-->
+                <div class="searchbar-overlay"></div>
+                <div id="home-content" class="page-content">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tab 2 - View 2 -->
+    <div id="tab2" class="view tab view-chats">
+        <div class="pages">
+            <div data-page="chats-info" class="page">
+                <div id="chats-info-content" class="page-content">
+                </div>
+            </div>
+            <div data-page="chats" class="page">
+                <div id="chats-content" class="page-content">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Tab 3 - View 3 -->
+
+    <div id="tab3" class="view tab view-person">
+        <div class="pages">
+            <div data-page="person-info" class="page">
+                <div id="person-info-content" class="page-content"></div>
+            </div>
+            <div data-page="person" class="page">
+                <div id="person-content" class="page-content"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 带有链接的标签栏 -->
+    <div class="toolbar tabbar tabbar-labels">
+        <div class="toolbar-inner">
+            <a href="#tab1" onclick="changepage('home')" class="tab-link active">
+                <i class="f7-icons">home</i>
+                <span class="tabbar-label">大厅</span>
+            </a>
+            <a href="#tab2" onclick="changepage('newcontact')" class="tab-link">
+                <i class="f7-icons">chats</i>
+                <span class="tabbar-label">联系人</span>
+            </a>
+            <a href="#tab3" onclick="changepage('person.person');" class="tab-link">
+                <i class="f7-icons">person</i>
+                <span class="tabbar-label">我的</span>
+            </a>
+        </div>
+    </div>
+</div>
+<!-- Path to Framework7 Library JS-->
+<script type="text/javascript" src="js/framework7.min.js"></script>
+<script type="text/javascript" src="js/zepto.min.js"></script>
+<script type="text/javascript" src="js/js-yaml.min.js"></script>
+<script type="text/javascript" src="js/hrframe.js"></script>
+<!-- Path to your app js-->
+<script type="text/javascript" src="js/my-app.js"></script>
+</body>
+
+</html>
