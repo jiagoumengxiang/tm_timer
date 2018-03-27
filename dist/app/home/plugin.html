@@ -64,6 +64,13 @@
             width: 100px;
             height: 30px;
         }
+
+        .div-shell {
+            display: block;
+            width: fit-content;
+            margin: 0 auto;
+
+        }
     </style>
     <div class="timer">
         <h3>剩余时间
@@ -71,6 +78,10 @@
                 <oo>=timer</oo>
             </span>
         </h3>
+        <div class="timer-mm">
+            <input type="checkbox" value="0" onchange="$f('__.exerciseMod',this);">练习模式
+        </div>
+
         <div class="timer-check">
             <div class="timer-mm" onclick="$f('__.selectMM',3);">
                 <input type="checkbox" value="3">+3分钟</div>
@@ -92,15 +103,17 @@
             <div class="timer-mm" onclick="$f('__.selectMM',8);">
                 <input type="checkbox" value="8">+8分钟</div>
         </div>
-        <div class="button-group">
+        <div class="button-group div-shell">
             <button onclick="$f('__.timeStart',this);">开始</button>
             <button onclick="$f('__.timeEnd',this);">结束</button>
             <button onclick="$f('__.clearLog',this);">清除日志</button>
         </div>
-        <div class="light green-light"></div>
-        <div class="light yellow-light"></div>
-        <div class="light red-light"></div>
-        <div class="light ring-light"></div>
+        <div class="div-shell">
+            <div class="light green-light"></div>
+            <div class="light yellow-light"></div>
+            <div class="light red-light"></div>
+            <div class="light ring-light"></div>
+        </div>
         <div class="log">
         </div>
     </div>
@@ -120,6 +133,7 @@
     });
 
     $f("df", "__.timeStart", function (e) {
+
         //判断是否结束
         if (!$f("get", "timer")) {
             //获取设定时间
@@ -134,6 +148,7 @@
                 $f("__.peerSecond");
             }, 1000);
             $f("set", "timer", timerId);
+            $f("__.addLog", "计时已启动");
         } else {
             //提醒正在计时中
             $f("__.addLog", "正在计时中,请先停止再开始.");
@@ -175,7 +190,7 @@
                 spend_ss = spend_ss % 60;
             }
 
-            $f("__.addLog", "计时->" + setting_mm + ":" + setting_ss + "    用时->" + spend_mm + ":" + spend_ss);
+            $f("__.addLog", "计时结束->" + setting_mm + ":" + setting_ss + "    用时->" + spend_mm + ":" + spend_ss);
 
             $f("set", "timer", 0);
             $("h3 span").html("");
@@ -264,5 +279,13 @@
     $f("df", "__.addLog", function (_text) {
         $(".log").html(_text + "<br/>" + $(".log").html());
         localStorage.log = $(".log").html();
+    });
+
+    $f("df", "__.exerciseMod", function (e) {
+        if (e.checked) {
+            $("h3 span").css("color", "#2f1d42");
+        } else {
+            $("h3 span").css("color", "#F00");
+        }
     });
 </script>
